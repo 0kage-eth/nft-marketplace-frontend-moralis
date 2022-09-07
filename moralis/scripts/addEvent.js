@@ -1,4 +1,4 @@
-const contractAddresses = require("../constants/networkMapping.json")
+const contractAddresses = require("../../constants/networkMapping.json")
 const Moralis = require("moralis-v1/node")
 require("dotenv").config()
 
@@ -237,6 +237,20 @@ const main = async () => {
     WithdrawBalanceOptions,
     { useMasterKey: true }
   )
+
+  if (
+    nftListedResponse.success &&
+    nftBoughtResponse.success &&
+    nftUpdatedResponse.success &&
+    nftDelistedResponse.success &&
+    withdrawBalanceResponse.success
+  ) {
+    console.log("Event watchers successfully registered in moralis database")
+  } else {
+    console.log(
+      "Something went wrong while adding watchers to moralis database"
+    )
+  }
 }
 
 main()
