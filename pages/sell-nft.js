@@ -1,12 +1,5 @@
-import { Header } from "../components/Header"
-
 const SellNFT = () => {
-    return (
-        <div>
-            <Header />
-            Sell NFT!
-        </div>
-    )
+    return <div>Sell NFT!</div>
 }
 
 export default SellNFT

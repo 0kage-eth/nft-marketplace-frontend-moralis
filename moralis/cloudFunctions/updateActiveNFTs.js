@@ -1,5 +1,3 @@
-const { default: Moralis } = require("moralis")
-
 Moralis.Cloud.afterSave("NFTListed", async (request) => {
   // Every event gets triggered twice - so we have a field called 'confirmed'
   // first time an event is fired, 'confirmed' is false
@@ -115,9 +113,45 @@ Moralis.Cloud.afterSave("NFTUpdated", async (request) => {
   const logger = Moralis.Cloud.getLogger()
   logger.info("Looking for confirmed items in NFTUpdated Table")
 
-  const confirmed = Moralis.object.get("confirmed")
+  const confirmed = request.object.get("confirmed")
   if (confirmed) {
     logger.info("Found a confirmed item in NFTUpdated Table")
+
+    const activeNFTTable = Moralis.Object.extend("ActiveNFT")
+
+    const marketPlaceAddress = request.object.get("address")
+    const nftAddress = request.object.get("nftAddress")
+    const tokenId = request.object.get("tokenId")
+    const newPrice = request.object.get("revisedPrice")
+    const query = new Moralis.Query(activeNFTTable)
+
+    query.equalTo("marketPlaceAddress", marketPlaceAddress)
+    query.equalTo("nftAddress", nftAddress)
+    query.equalTo("tokenId", tokenId)
+
+    const activeNftItem = await query.first()
+    logger.info(
+      `Searching for nft in ActiveNFT table with marketplace address ${marketPlaceAddress}, nftAddress is ${nftAddress}, tokenId is ${tokenId}`
+    )
+    if (activeNftItem) {
+      const oldPrice = activeNftItem.get("price")
+
+      logger.info("Found Active NFT")
+      logger.info("updating price....")
+      activeNftItem.set("price", request.object.get("revisedPrice"))
+
+      await activeNftItem.save()
+      logger.info(
+        `Price of nft in ActiveNFT table with address ${nftAddress} updated from ${oldPrice} to ${newPrice}`
+      )
+    } else {
+      logger.info(
+        `No match in ActiveNFTTable with marketplace address ${nftMarketPlaceAddress}, nft address ${nftAddress} and token id ${tokenId}`
+      )
+    }
+  } else {
+    logger.info(
+      "Item saved in NFTUpdatedTable is not confirmed yet! Skipping execution..."
+    )
   }
-  const updateNFTTable = Moralis.extend("ActiveNFT")
 })

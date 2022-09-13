@@ -1663,7 +1663,17 @@
     "@web3uikit/styles" "*"
     react-router-dom "^6.3.0"
 
-"@web3uikit/icons@*":
+"@web3uikit/core@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@web3uikit/core/-/core-0.1.9.tgz#c4c20e2ebbee1df5fdd66d7a52b8f17a8bd9d706"
+  integrity sha512-fBuwPOOuz/cgAf3iHMNDpBlHyJdH7ZBD/dTbIrGn2vmNtLNiZzd2x7WQgdadfvWUWrPJOFqz8r1pZc8p7eR8sw==
+  dependencies:
+    "@web3uikit/config" "*"
+    "@web3uikit/icons" "*"
+    "@web3uikit/styles" "*"
+    react-router-dom "^6.3.0"
+
+"@web3uikit/icons@*", "@web3uikit/icons@^0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@web3uikit/icons/-/icons-0.1.5.tgz#6a1c1699b00640188b49a85346f3d8b2a4a43353"
   integrity sha512-1FcaZaw3SljvWNA5V2PKMfGbfhiVG6rT/u1TV7PHqMTaYlAbbTeeq5rHNrWx3MkCWBITgU6jYl2w62wGSn0WCg==
@@ -1681,6 +1691,22 @@
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@web3uikit/web3/-/web3-0.1.6.tgz#446ba722a053ccc48b149dc246fe9f15fc898688"
   integrity sha512-YnKypV2uBzeNPJtxWhdvZBzmVeSTRT0oK9/iL+kbbDGNEs/b42cncTMDAeLrvLwkwAe7/0ANmkCIMNPZMa6daA==
+  dependencies:
+    "@walletconnect/web3-provider" "^1.7.8"
+    "@web3auth/web3auth" "^1.1.0"
+    "@web3uikit/config" "*"
+    "@web3uikit/core" "*"
+    "@web3uikit/icons" "*"
+    "@web3uikit/styles" "*"
+    moralis "^1.8.1"
+    react-blockies "^1.4.1"
+    react-moralis "^1.4.0"
+    wp5-cra-polyfill "github:oscario2/wp5-cra-polyfill#91431fa"
+
+"@web3uikit/web3@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@web3uikit/web3/-/web3-0.1.9.tgz#ef82d065befc461a037d294543f435eee09930b6"
+  integrity sha512-6N0UBo1HmhXRB4pom1m+WKMcGJ4PLcqHiVtKjgFX2R3NjAkob/+kWh1XCU/QHOBQmFdvqzgF6n7kbQMEJP+2tg==
   dependencies:
     "@walletconnect/web3-provider" "^1.7.8"
     "@web3auth/web3auth" "^1.1.0"
