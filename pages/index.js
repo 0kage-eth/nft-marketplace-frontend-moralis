@@ -16,7 +16,7 @@ const Home = () => {
 
     const nftListings = () => {
         return activeNFTs.map((nft, indx) => {
-            const { tokenId, nftAddress, marketPlaceaddress, price, owner } = nft.attributes
+            const { tokenId, nftAddress, marketPlaceAddress, price, owner } = nft.attributes
             console.log(
                 `token ${tokenId}, nftAddress ${nftAddress} price: ${price} ownwer: ${owner}`
             )
@@ -28,7 +28,7 @@ const Home = () => {
                     </div> */}
                     <NFTDisplayCard
                         price={price}
-                        nftMarketplaceAddress={marketPlaceaddress}
+                        nftMarketplaceAddress={marketPlaceAddress}
                         tokenId={tokenId}
                         owner={owner}
                         nftAddress={nftAddress}
