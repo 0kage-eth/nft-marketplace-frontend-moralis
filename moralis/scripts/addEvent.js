@@ -14,250 +14,240 @@ const appId = process.env.NEXT_PUBLIC_APPID
 const masterKey = process.env.NEXT_PUBLIC_MASTERKEY
 
 const main = async () => {
-  // start moralis server
+    // start moralis server
 
-  console.log("server url", serverURL)
-  console.log("appId", appId)
+    console.log("server url", serverURL)
+    console.log("appId", appId)
 
-  await Moralis.start({
-    serverUrl: serverURL,
-    appId: appId,
-    masterKey: masterKey,
-  })
+    await Moralis.start({
+        serverUrl: serverURL,
+        appId: appId,
+        masterKey: masterKey,
+    })
 
-  let nftListedOptions = {
-    chainId: moralisChainId,
-    sync_historical: true,
-    topic: "NFTListed(address,address,uint256,uint256)",
-    address: contractAddress,
-    abi: {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
+    let nftListedOptions = {
+        chainId: moralisChainId,
+        sync_historical: true,
+        topic: "NFTListed(address,address,uint256,uint256)",
+        address: contractAddress,
+        abi: {
+            anonymous: false,
+            inputs: [
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "owner",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "nftAddress",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "uint256",
+                    name: "tokenId",
+                    type: "uint256",
+                },
+                {
+                    indexed: false,
+                    internalType: "uint256",
+                    name: "price",
+                    type: "uint256",
+                },
+            ],
+            name: "NFTListed",
+            type: "event",
         },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "nftAddress",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "price",
-          type: "uint256",
-        },
-      ],
-      name: "NFTListed",
-      type: "event",
-    },
-    tableName: "NFTListed",
-  }
+        tableName: "NFTListed",
+    }
 
-  let nftBoughtOptions = {
-    sync_historical: true,
-    address: contractAddress,
-    topic: "NFTBought(address,address,uint256,uint256)",
-    chainId: moralisChainId,
-    abi: {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "buyer",
-          type: "address",
+    let nftBoughtOptions = {
+        sync_historical: true,
+        address: contractAddress,
+        topic: "NFTBought(address,address,uint256,uint256)",
+        chainId: moralisChainId,
+        abi: {
+            anonymous: false,
+            inputs: [
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "buyer",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "nftAddress",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "uint256",
+                    name: "tokenId",
+                    type: "uint256",
+                },
+                {
+                    indexed: false,
+                    internalType: "uint256",
+                    name: "salePrice",
+                    type: "uint256",
+                },
+            ],
+            name: "NFTBought",
+            type: "event",
         },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "nftAddress",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "salePrice",
-          type: "uint256",
-        },
-      ],
-      name: "NFTBought",
-      type: "event",
-    },
-    tableName: "NFTBought",
-  }
+        tableName: "NFTBought",
+    }
 
-  let NftUpdatedOptions = {
-    address: contractAddress,
-    sync_historical: true,
-    chainId: moralisChainId,
-    topic: "NFTUpdated(address,address,uint256,uint256)",
-    abi: {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
+    let NftUpdatedOptions = {
+        address: contractAddress,
+        sync_historical: true,
+        chainId: moralisChainId,
+        topic: "NFTUpdated(address,address,uint256,uint256)",
+        abi: {
+            anonymous: false,
+            inputs: [
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "owner",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "nftAddress",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "uint256",
+                    name: "tokenId",
+                    type: "uint256",
+                },
+                {
+                    indexed: false,
+                    internalType: "uint256",
+                    name: "revisedPrice",
+                    type: "uint256",
+                },
+            ],
+            name: "NFTUpdated",
+            type: "event",
         },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "nftAddress",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "revisedPrice",
-          type: "uint256",
-        },
-      ],
-      name: "NFTUpdated",
-      type: "event",
-    },
-    tableName: "NFTUpdated",
-  }
+        tableName: "NFTUpdated",
+    }
 
-  let NftDelistedOptions = {
-    address: contractAddress,
-    sync_historical: true,
-    chainId: moralisChainId,
-    topic: "NFTDelisted(address,address,uint256,uint256)",
-    abi: {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
+    let NftDelistedOptions = {
+        address: contractAddress,
+        sync_historical: true,
+        chainId: moralisChainId,
+        topic: "NFTDelisted(address,address,uint256,uint256)",
+        abi: {
+            anonymous: false,
+            inputs: [
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "owner",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "nftAddress",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "uint256",
+                    name: "tokenId",
+                    type: "uint256",
+                },
+                {
+                    indexed: false,
+                    internalType: "uint256",
+                    name: "listingPrice",
+                    type: "uint256",
+                },
+            ],
+            name: "NFTDelisted",
+            type: "event",
         },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "nftAddress",
-          type: "address",
+        tableName: "NFTDelisted",
+    }
+
+    let WithdrawBalanceOptions = {
+        address: contractAddress,
+        sync_historical: true,
+        chainId: moralisChainId,
+        topic: "withdrawBalance(address, uint256)",
+        abi: {
+            anonymous: false,
+            inputs: [
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "withdrawer",
+                    type: "address",
+                },
+                {
+                    indexed: false,
+                    internalType: "uint256",
+                    name: "withdrawAmount",
+                    type: "uint256",
+                },
+            ],
+            name: "WithdrawBalance",
+            type: "event",
         },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "listingPrice",
-          type: "uint256",
-        },
-      ],
-      name: "NFTDelisted",
-      type: "event",
-    },
-    tableName: "NFTDelisted",
-  }
+        tableName: "WithdrawBalance",
+    }
 
-  let WithdrawBalanceOptions = {
-    address: contractAddress,
-    sync_historical: true,
-    chainId: moralisChainId,
-    topic: "withdrawBalance(address, uint256)",
-    abi: {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "withdrawer",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "withdrawAmount",
-          type: "uint256",
-        },
-      ],
-      name: "WithdrawBalance",
-      type: "event",
-    },
-    tableName: "WithdrawBalance",
-  }
+    const nftListedResponse = await Moralis.Cloud.run("watchContractEvent", nftListedOptions, {
+        useMasterKey: true,
+    })
 
-  const nftListedResponse = await Moralis.Cloud.run(
-    "watchContractEvent",
-    nftListedOptions,
-    { useMasterKey: true }
-  )
+    const nftBoughtResponse = await Moralis.Cloud.run("watchContractEvent", nftBoughtOptions, {
+        useMasterKey: true,
+    })
 
-  const nftBoughtResponse = await Moralis.Cloud.run(
-    "watchContractEvent",
-    nftBoughtOptions,
-    { useMasterKey: true }
-  )
+    const nftUpdatedResponse = await Moralis.Cloud.run("watchContractEvent", NftUpdatedOptions, {
+        useMasterKey: true,
+    })
 
-  const nftUpdatedResponse = await Moralis.Cloud.run(
-    "watchContractEvent",
-    NftUpdatedOptions,
-    { useMasterKey: true }
-  )
+    const nftDelistedResponse = await Moralis.Cloud.run("watchContractEvent", NftDelistedOptions, {
+        useMasterKey: true,
+    })
 
-  const nftDelistedResponse = await Moralis.Cloud.run(
-    "watchContractEvent",
-    NftDelistedOptions,
-    { useMasterKey: true }
-  )
-
-  const withdrawBalanceResponse = await Moralis.Cloud.run(
-    "watchContractEvent",
-    WithdrawBalanceOptions,
-    { useMasterKey: true }
-  )
-
-  if (
-    nftListedResponse.success &&
-    nftBoughtResponse.success &&
-    nftUpdatedResponse.success &&
-    nftDelistedResponse.success &&
-    withdrawBalanceResponse.success
-  ) {
-    console.log("Event watchers successfully registered in moralis database")
-  } else {
-    console.log(
-      "Something went wrong while adding watchers to moralis database"
+    const withdrawBalanceResponse = await Moralis.Cloud.run(
+        "watchContractEvent",
+        WithdrawBalanceOptions,
+        { useMasterKey: true }
     )
-  }
+
+    if (
+        nftListedResponse.success &&
+        nftBoughtResponse.success &&
+        nftUpdatedResponse.success &&
+        nftDelistedResponse.success &&
+        withdrawBalanceResponse.success
+    ) {
+        console.log("Event watchers successfully registered in moralis database")
+    } else {
+        console.log("Something went wrong while adding watchers to moralis database")
+    }
 }
 
 main()
-  .then(() => {
-    process.exit(0)
-  })
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
+    .then(() => {
+        process.exit(0)
+    })
+    .catch((e) => {
+        console.error(e)
+        process.exit(1)
+    })

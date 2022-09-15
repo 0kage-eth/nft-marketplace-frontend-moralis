@@ -16,6 +16,7 @@ const BuyNFTModal = ({
 }) => {
     const dispatch = useNotification()
     console.log(imageUrl)
+    console.log(price)
     const { runContractFunction: buyNFT, onFetching } = useWeb3Contract({
         abi: nftMarketPlaceAbi,
         contractAddress: nftMarketPlaceAddress,
